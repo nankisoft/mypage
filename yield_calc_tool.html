@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>利率（債券利回り）計算ツール</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    function calcSimpleYield(buy, redeem, years) {
+      return (redeem - buy) / buy / years;
+    }
+
+    function calcCompoundYield(buy, redeem, years) {
+      return Math.pow(redeem / buy, 1 / years) - 1;
+    }
+
+    function calcCompare(buy, rate, years) {
+      return buy * Math.pow(1 + rate, years);
+    }
+
+    function calculateYield() {
+      const buy = Number(document.getElementById('buy').value);
+      const redeem = Number(document.getElementById('redeem').value);
+      const years = Number(document.getElementById('years').value);
+      const compRate = Number(document.getElementById('comprate').value) / 100;
+
+      if (!buy || !redeem || !years) {
+        document.getElementById('result').textContent = '購入価格・償還価格・年数を入力してください。';
+        return;
+      }
+
+      const simple = calcSimpleYield(buy, redeem, years);
+      const compound = calcCompoundYield(buy, redeem, years);
+      const compFuture = compRate ? calcCompare(buy, compRate, years) : null;
+
+      let text = '';
+      text += `単純利回り： ${(simple * 100).toFixed(3)}% / 年\n`;
+      text += `実質利回り（複利換算）： ${(compound * 100).toFixed(3)}% / 年\n`;
+
+      if (compRate) {
+        text += `\n--- 複利 ${(compRate * 100).toFixed(2)}% と比較 ---\n`;
+        text += `複利運用の最終額： ${compFuture.toFixed(2)} 円\n`;
+        text += `債券償還額との差： ${(redeem - compFuture).toFixed(2)} 円`;
+      }
+
+      document.getElementById('result').textContent = text;
+    }
+  </script>
+</head>
+
+<body>
+  <div style="margin-bottom: 10px;">
+    <a href="index.html" style="text-decoration: none; font-size: 14px; color: #0078ff;">&lt; Topに戻る</a>
+  </div>
+  <h1>利率（債券利回り）計算ツール</h1>
+  <p>購入価格・償還価格・年数から単純利回りと実質利回り（複利換算）を計算します。</p>
+
+  <label>購入価格: <input id="buy" type="number"></label><br>
+  <label>償還価格: <input id="redeem" type="number"></label><br>
+  <label>償還までの年数: <input id="years" type="number"></label><br>
+  <label>比較用 複利年利(%): <input id="comprate" type="number"></label><br><br>
+
+  <button onclick="calculateYield()">計算</button><br><br>
+
+  <pre id="result" style="white-space: pre-wrap"></pre>
+
+  <p><a href="top_page.html">トップへ戻る</a></p>
+</body>
+
+</html>

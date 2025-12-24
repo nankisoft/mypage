@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>へやわけ - Puzzle Viewer</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP";
+            margin: 16px
+        }
+
+        #board {
+            width: min(90vw, 600px);
+            height: auto;
+        }
+
+        .controls {
+            margin-top: 12px;
+        }
+
+        button {
+            margin-right: 8px
+        }
+
+        #puzzle-list {
+            margin-top: 12px
+        }
+
+        .cell {
+            cursor: pointer
+        }
+
+        .clue {
+            font-weight: bold;
+            font-size: 12px;
+            fill: #000
+        }
+    </style>
+</head>
+
+<body>
+    <h1>へやわけ（Heyawake） - Viewer</h1>
+    <div>
+        <label>問題：
+            <select id="puzzle-select"></select>
+        </label>
+        <button id="load-btn">読み込み</button>
+        <button id="check-btn">解答チェック</button>
+        <button id="show-solution-btn">答えを表示</button>
+    </div>
+
+    <div id="board"></div>
+    <div class="controls">
+        <small>クリックで黒/白切替。黒は隣接させない制約はチェックされません（自分で守るルール）。</small>
+    </div>
+
+    <script type="module" src="./viewer.js"></script>
+</body>
+
+</html>

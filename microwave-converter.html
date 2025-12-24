@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電子レンジ ワット数・時間変換ツール</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Tool specific overrides or layout that isn't global */
+        /* ... keeping structural layout for specific tools if complex ... */
+        .input-box {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #0078ff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #005fcc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .custom-section {
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin-bottom: 10px;">
+        <a href="index.html" style="text-decoration: none; font-size: 14px; color: #0078ff;">&lt; Topに戻る</a>
+    </div>
+
+    <h1>電子レンジ ワット数・時間変換ツール</h1>
+
+    <div class="input-box">
+        <label>元の指示（レシピ等）</label>
+        <div class="row">
+            <input type="number" id="srcWatt" value="600" placeholder="ワット数"> W
+        </div>
+        <div class="row">
+            <input type="number" id="srcMin" value="0" placeholder="分"> 分
+            <input type="number" id="srcSec" value="0" placeholder="秒"> 秒
+        </div>
+        <button onclick="calculate()">変換する</button>
+    </div>
+
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>ワット数</th>
+                <th>加熱時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Default results will be here -->
+        </tbody>
+    </table>
+
+    <div class="custom-section">
+        <label>任意のワット数で計算</label>
+        <div class="row" style="margin-top: 10px;">
+            <input type="number" id="targetWatt" placeholder="例: 700"> W
+        </div>
+        <div id="customResult" style="font-weight: bold; margin-top: 10px;"></div>
+    </div>
+
+    <script>
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.round(seconds % 60);
+            // Adjust if seconds rounds up to 60
+            if (s === 60) {
+                return `${m + 1}分 0秒`;
+            }
+            return `${m}分 ${s}秒`;
+        }
+
+        function calculate() {
+            const srcWatt = parseFloat(document.getElementById('srcWatt').value);
+            const srcMin = parseFloat(document.getElementById('srcMin').value) || 0;
+            const srcSec = parseFloat(document.getElementById('srcSec').value) || 0;
+
+            if (!srcWatt || (srcMin === 0 && srcSec === 0)) {
+                return; // Do nothing if invalid
+            }
+
+            const totalEnergy = srcWatt * (srcMin * 60 + srcSec);
+
+            const presets = [1500, 1000, 800, 600, 500];
+            const tbody = document.querySelector('#resultTable tbody');
+            tbody.innerHTML = '';
+
+            presets.forEach(w => {
+                const time = totalEnergy / w;
+                const formatted = formatTime(time);
+
+                let rowStyle = '';
+                if (w === srcWatt) {
+                    rowStyle = 'style="background-color: #e6f3ff; font-weight:bold;"';
+                }
+
+                tbody.innerHTML += `
+          <tr ${rowStyle}>
+            <td>${w} W</td>
+            <td>${formatted}</td>
+          </tr>
+        `;
+            });
+
+            // Custom Target Calculation
+            const targetWatt = parseFloat(document.getElementById('targetWatt').value);
+            const customResultDiv = document.getElementById('customResult');
+            if (targetWatt) {
+                const time = totalEnergy / targetWatt;
+                customResultDiv.innerText = `加熱時間: ${formatTime(time)}`;
+            } else {
+                customResultDiv.innerText = '';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
