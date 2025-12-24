@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>利率（債券利回り）計算ツール</title>
   <link rel="stylesheet" href="css/style.css">
   <script>
@@ -55,16 +56,21 @@
   <h1>利率（債券利回り）計算ツール</h1>
   <p>購入価格・償還価格・年数から単純利回りと実質利回り（複利換算）を計算します。</p>
 
-  <label>購入価格: <input id="buy" type="number"></label><br>
-  <label>償還価格: <input id="redeem" type="number"></label><br>
-  <label>償還までの年数: <input id="years" type="number"></label><br>
-  <label>比較用 複利年利(%): <input id="comprate" type="number"></label><br><br>
+  <div class="input-box">
+    <label>購入価格: <input id="buy" type="number"></label><br>
+    <label>償還価格: <input id="redeem" type="number"></label><br>
+    <label>償還までの年数: <input id="years" type="number"></label><br>
+    <label>比較用 複利年利(%): <input id="comprate" type="number"></label><br><br>
+    <button onclick="calculateYield()">計算</button>
+  </div>
 
-  <button onclick="calculateYield()">計算</button><br><br>
+  <div class="result-box">
+    <pre id="result" style="white-space: pre-wrap; margin:0;"></pre>
+  </div>
 
-  <pre id="result" style="white-space: pre-wrap"></pre>
-
-  <p><a href="top_page.html">トップへ戻る</a></p>
+  <div style="margin-top: 20px;">
+    <a href="index.html">トップへ戻る</a>
+  </div>
 </body>
 
 </html>
