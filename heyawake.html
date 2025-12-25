@@ -5,59 +5,32 @@
     <meta charset="utf-8">
     <title>へやわけ - Puzzle Viewer</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP";
-            margin: 16px
-        }
-
-        #board {
-            width: min(90vw, 600px);
-            height: auto;
-        }
-
-        .controls {
-            margin-top: 12px;
-        }
-
-        button {
-            margin-right: 8px
-        }
-
-        #puzzle-list {
-            margin-top: 12px
-        }
-
-        .cell {
-            cursor: pointer
-        }
-
-        .clue {
-            font-weight: bold;
-            font-size: 12px;
-            fill: #000
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>へやわけ（Heyawake） - Viewer</h1>
-    <div>
-        <label>問題：
+    <h1>へやわけ（Heyawake）</h1>
+
+    <div class="controls-area">
+        <label>問題を選択:
             <select id="puzzle-select"></select>
         </label>
         <button id="load-btn">読み込み</button>
-        <button id="check-btn">解答チェック</button>
-        <button id="show-solution-btn">答えを表示</button>
+        <button id="check-btn">正解判定</button>
+        <button id="show-solution-btn">答えを表示/非表示</button>
     </div>
+
+    <div id="message"></div>
 
     <div id="board"></div>
-    <div class="controls">
-        <small>クリックで黒/白切替。黒は隣接させない制約はチェックされません（自分で守るルール）。</small>
+
+    <div class="instructions">
+        <small>操作: クリックで 空白 -> 黒 -> 白(・) -> 空白 と切り替わります</small>
     </div>
 
-    <script type="module" src="./viewer.js"></script>
+    <div id="solution-container"></div>
+
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
